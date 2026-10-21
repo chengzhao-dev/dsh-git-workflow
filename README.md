@@ -128,7 +128,7 @@ node skills/shipping-github/scripts/checking-commit-identity.mjs --author "Maint
 ├── templates/           # 仓库与 Pages 模板
 ├── tests/               # 规则、工具与 provider 行为测试
 ├── scripts/             # 仓库自身的链接/元数据检查（不进 npm 包）
-├── docs/                # 插件边界、流程、布局、版本与迁移记录（不进 npm 包）
+├── docs/                # 插件边界、流程、布局与版本约定（不进 npm 包）
 ├── cordis.patch.yml     # DSH 插件注册
 ├── locale/              # 中英文插件元数据
 └── icon.svg

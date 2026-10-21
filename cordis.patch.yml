@@ -5,9 +5,9 @@
 # packaged shipping-github skill through `ctx.skills` and the two read-only
 # checks through `ctx.tools`.
 #
-# Install from Git or npm, for example:
-#
-#   dsh plugin --profile web add npm:@chengzhao-dev/dsh-git-workflow
+# Install with `dsh plugin --profile <profile> add npm:@chengzhao-dev/dsh-git-workflow@<version>`.
+# README.md pins the current version and describes the desktop profile; this
+# file does not repeat the install command so the version lives in one place.
 #
 - insert:
     - id: git-workflow

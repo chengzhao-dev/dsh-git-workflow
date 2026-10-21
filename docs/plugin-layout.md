@@ -23,10 +23,10 @@ LICENSE
 src/                         # TypeScript 源码
 tests/                       # node:test 测试
 scripts/checking-skill-links.mjs
-docs/                        # 本目录：边界、流程、布局、版本与迁移记录
+docs/                        # 本目录：边界、流程、布局与版本约定
 .github/workflows/           # CI 与发布
 tsconfig.json
-.gitignore / .npmignore
+.gitignore
 ```
 
 ## 关键文件
@@ -49,8 +49,8 @@ tsconfig.json
 - `npm test`：先构建，再跑 `tests/*.test.mjs`。
 - `npm run check`：`tsc --noEmit` + 仓库链接/元数据/包身份检查。
 - `npm run pack:check`：`npm pack --dry-run`，核对包内文件。
-- GitHub Actions：push/PR 跑 `npm test`（含构建）与 `npm run check`；`v*` 标签先跑两者，再 `npm publish --provenance`。
+- GitHub Actions：push/PR 跑 `npm test`（含构建）与 `npm run check`；`v*` 标签先核对标签与 `package.json` 版本一致，再跑两者，通过 OIDC 发布并创建 GitHub Release。
 
 ## 为什么 `lib/` 要提交
 
-用户可能通过 `github:chengzhao-dev/dsh-git-workflow#v0.1.0` 安装。DSH 不会在安装时构建插件，所以 `lib/` 必须与源码一起提交，且发布前重新构建，避免源码与产物漂移。
+用户可能通过 `github:chengzhao-dev/dsh-git-workflow#<tag>` 安装。DSH 不会在安装时构建插件，所以 `lib/` 必须与源码一起提交，且发布前重新构建，避免源码与产物漂移。
