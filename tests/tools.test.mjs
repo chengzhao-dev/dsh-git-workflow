@@ -214,6 +214,24 @@ test('registered commit tool executes through the host exec context', async () =
   })
 })
 
+test('registered ship tool renders through the host definition', async () => {
+  const definitions = []
+  apply({
+    skills: { registerProvider(factory) { factory() } },
+    tools: { register(definition) { definitions.push(definition) } },
+  })
+  const tool = definitions.find((definition) => definition.name === 'git_ship_report')
+  const result = await tool.execute({
+    mode: 'commit',
+    executed: true,
+    branch: 'main',
+    commits: ['feat: 添加交付回执'],
+    checks: { identity: 'pass', message: 'pass', project: 'pass', readback: 'skip' },
+  }, {})
+  assert.match(result.receipt, /mode=commit · executed=true/)
+  assert.equal(tool.output.render({}, result)[0].text, result.receipt)
+})
+
 test('apply registers both tools when the host exposes a tool registry', () => {
   const registered = []
   apply({
