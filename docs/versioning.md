@@ -37,13 +37,14 @@ git push origin v0.1.1
 ## 信任与 provenance
 
 - npm 端使用 trusted publishing：npmjs.com 上该包的 Trusted Publisher 指向本仓库的 `publish.yml` 与 `npm publish` 动作。工作流只需 `id-token: write`，不配置 `NPM_TOKEN`。
-- 核对：`npm trust list @chengzhao-dev/dsh-git-workflow` 应出现本仓库与 `publish.yml`；`https://registry.npmjs.org/-/npm/v1/attestations/@chengzhao-dev/dsh-git-workflow@<version>` 应返回 attestation 数据。
+- 核对：npmjs.com 上该包的 Settings → Trusted Publisher 应指向本仓库与 `publish.yml`。本机也可用 `npm trust list @chengzhao-dev/dsh-git-workflow`，但该命令要浏览器 2FA 一次性密码，没有 OTP 时以 `EOTP` 失败，这不算配置有问题。
+- attestation 核对：`https://registry.npmjs.org/-/npm/v1/attestations/@chengzhao-dev/dsh-git-workflow@<version>` 应返回两条，predicateType 分别是 npm 的 publish 与 `https://slsa.dev/provenance/v1`。
 - 信任关系缺失或配错时，标签发布会在 `npm publish` 处以 `ENEEDAUTH` 失败。改 npmjs.com 上的 Trusted Publisher 配置，不要在仓库里加长期 token。
 
 ## 发布后核对
 
-1. Actions 绿色，且 `npm publish` 与创建 Release 两步都真的执行。
-2. `npm view @chengzhao-dev/dsh-git-workflow@<version> version gitHead`：版本正确，`gitHead` 等于标签指向的提交。
+1. Actions 绿色，且 `npm publish` 与创建 Release 两步都真的执行；`npm publish` 日志里应出现 `Signed provenance statement`。
+2. `npm view @chengzhao-dev/dsh-git-workflow@<version> version gitHead`（本机默认 registry 不是 npmjs 时加 `--registry=https://registry.npmjs.org`）：版本正确，`gitHead` 等于标签指向的提交。发布刚结束的一两分钟内 registry 可能还查不到该版本，属正常同步延迟，不要据此判定发布失败——以工作流日志里的 `+ @chengzhao-dev/dsh-git-workflow@<version>` 与 `shasum` 为准。
 3. `git rev-parse v<version>^{commit}` 与发布时的 `origin/main` 一致。
 4. GitHub Releases 有对应版本，且指向同一提交。
 5. 商店/registry 的上架展示不在本插件发布范围内。
