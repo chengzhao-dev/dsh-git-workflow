@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Git Workflow",
+    "description": "A nine-step delivery procedure: commit-message and identity checks, explicit staging, push read-back, PR/Issue, Actions and Pages release gates; read-only checks, never commits or publishes for you."
+  }
+}
