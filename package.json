@@ -1,6 +1,6 @@
 {
   "name": "@chengzhao-dev/dsh-git-workflow",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Git 与 GitHub 交付技能包：九步交付工序、提交信息与身份校验、PR/Issue、Actions、Pages 发布闸门与仓库卫生 · Git and GitHub delivery tooling for DeepSeek Harness",
   "type": "module",
   "main": "./lib/index.js",

@@ -29,10 +29,10 @@
 ## 安装
 
 ```bash
-dsh plugin --profile web add npm:@chengzhao-dev/dsh-git-workflow@0.1.0
+dsh plugin --profile web add npm:@chengzhao-dev/dsh-git-workflow@0.1.1
 ```
 
-`--profile` 换成实际运行的 profile。桌面应用固定跑 `desktop` profile，且该 profile 由应用独占管理；可先试 `dsh plugin --profile desktop add npm:@chengzhao-dev/dsh-git-workflow@0.1.0`，如果应用拒绝写入，再走「设置 → 插件 → 添加插件」，地址填 `npm:@chengzhao-dev/dsh-git-workflow@0.1.0`。跟 GitHub 标签也可以写 `github:chengzhao-dev/dsh-git-workflow#v0.1.0`，但要锁定 commit 或 tag，并确认 `lib/` 已在仓库里。
+`--profile` 换成实际运行的 profile。桌面应用固定跑 `desktop` profile，且该 profile 由应用独占管理；可先试 `dsh plugin --profile desktop add npm:@chengzhao-dev/dsh-git-workflow@0.1.1`，如果应用拒绝写入，再走「设置 → 插件 → 添加插件」，地址填 `npm:@chengzhao-dev/dsh-git-workflow@0.1.1`。跟 GitHub 标签也可以写 `github:chengzhao-dev/dsh-git-workflow#v0.1.1`，但要锁定 commit 或 tag，并确认 `lib/` 已在仓库里。
 
 ## 工作区门禁与工具边界
 

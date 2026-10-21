@@ -29,10 +29,10 @@ It does not manage repositories or make release decisions for a project. The ski
 ## Install
 
 ```bash
-dsh plugin --profile web add npm:@chengzhao-dev/dsh-git-workflow@0.1.0
+dsh plugin --profile web add npm:@chengzhao-dev/dsh-git-workflow@0.1.1
 ```
 
-Replace `--profile` with the profile actually in use. The desktop app runs a `desktop` profile that it manages as its own; try `dsh plugin --profile desktop add npm:@chengzhao-dev/dsh-git-workflow@0.1.0` first, and if the app rejects the write, use Settings → Plugins → Add plugin with `npm:@chengzhao-dev/dsh-git-workflow@0.1.0`. A GitHub tag also works: `github:chengzhao-dev/dsh-git-workflow#v0.1.0`, but pin a commit or tag and make sure `lib/` is committed.
+Replace `--profile` with the profile actually in use. The desktop app runs a `desktop` profile that it manages as its own; try `dsh plugin --profile desktop add npm:@chengzhao-dev/dsh-git-workflow@0.1.1` first, and if the app rejects the write, use Settings → Plugins → Add plugin with `npm:@chengzhao-dev/dsh-git-workflow@0.1.1`. A GitHub tag also works: `github:chengzhao-dev/dsh-git-workflow#v0.1.1`, but pin a commit or tag and make sure `lib/` is committed.
 
 ## Workspace gate and tool boundaries
 
