@@ -113,7 +113,7 @@ Requires Node.js >= 22 and DSH >= 0.2.0-rc.1.
 The identity script lives under the skill. It checks the next-push range by default and only scans all history with an explicit `--all`:
 
 ```bash
-node skills/shipping-github/scripts/checking-commit-identity.mjs --author "<name <email>>"
+node skills/shipping-github/scripts/checking-commit-identity.mjs --author "Maintainer Name <maintainer@example.com>"
 ```
 
 The script calls the compiled `lib/commit-rules.js` and `lib/tools/commit-check.js`; run `npm run build` first.

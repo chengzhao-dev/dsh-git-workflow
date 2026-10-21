@@ -113,7 +113,7 @@ npm run pack:check # npm pack --dry-run
 提交身份脚本位于技能目录，默认检查下一次 push 的范围（显式 `--all` 才检查全部历史）：
 
 ```bash
-node skills/shipping-github/scripts/checking-commit-identity.mjs --author "<name <email>>"
+node skills/shipping-github/scripts/checking-commit-identity.mjs --author "Maintainer Name <maintainer@example.com>"
 ```
 
 脚本调用编译后的 `lib/commit-rules.js` 与 `lib/tools/commit-check.js`，先 `npm run build` 再运行。
