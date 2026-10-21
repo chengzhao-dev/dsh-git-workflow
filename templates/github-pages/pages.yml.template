@@ -1,0 +1,75 @@
+name: "pages"
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+# 同一时刻只允许一个部署任务，后来者排队（不取消进行中的发布，避免产物分支半更新）
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      # 示例用 tag；落地前按 references/ci.md 把第三方 action 钉到 commit SHA。
+      - uses: actions/checkout@v4
+
+      # 按项目替换：安装运行时/渲染器/依赖
+      - name: Setup toolchain
+        run: <setup-command>
+
+      # 渲染前先跑项目统一检查：编码与结构问题在这里硬性拦下
+      - name: Pre-render checks
+        run: <check-command> --profile fast
+
+      # 渲染整站到产物目录
+      - name: Render
+        run: <render-command>
+
+      # 可选：项目自己的渲染后处理（如资源内嵌、图延迟加载）
+      - name: Post-process
+        run: <post-process-command>
+
+      # 渲染后全量校验：规则 + 产物 smoke（入口/编码/站点索引）
+      - name: Post-render checks
+        run: <check-command> --profile full
+
+      - name: Publish to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./<output-dir>
+          publish_branch: gh-pages
+          # 每次部署用孤立提交覆盖产物分支：产物不累积历史
+          force_orphan: true
+
+      # 幂等纠正 Pages 源：POST 首次创建、PUT 纠正（成功返回 204）。
+      # 最终以读回的 GET 判定；源不是 gh-pages /(root) 就让 job 失败。
+      - name: Verify Pages source = gh-pages /(root)
+        run: |
+          api=https://api.github.com/repos/${{ github.repository }}/pages
+          auth="Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}"
+          accept="Accept: application/vnd.github+json"
+          code=$(curl -s -o /tmp/pages_create.json -w "%{http_code}" -X POST -H "$auth" -H "$accept" "$api" \
+            -d '{"build_type":"legacy","source":{"branch":"gh-pages","path":"/"}}')
+          echo "POST /pages (create) -> HTTP $code: $(cat /tmp/pages_create.json)"
+          code=$(curl -s -o /tmp/pages_update.json -w "%{http_code}" -X PUT -H "$auth" -H "$accept" "$api" \
+            -d '{"build_type":"legacy","source":{"branch":"gh-pages","path":"/"}}')
+          echo "PUT /pages (source correction) -> HTTP $code: $(cat /tmp/pages_update.json)"
+          get=$(curl -s -o /tmp/pages_get.json -w "%{http_code}" -H "$auth" -H "$accept" "$api")
+          branch=$(python3 -c "import json; print(json.load(open('/tmp/pages_get.json')).get('source', {}).get('branch', ''))")
+          path=$(python3 -c "import json; print(json.load(open('/tmp/pages_get.json')).get('source', {}).get('path', ''))")
+          echo "GET /pages -> HTTP $get, source = $branch $path"
+          if [ "$get" != "200" ] || [ "$branch" != "gh-pages" ] || [ "$path" != "/" ]; then
+            echo "ERROR: Pages 源不是 gh-pages /(root)（HTTP $get）。"
+            echo "POST/PUT 返回 403 表示 GITHUB_TOKEN 无权创建或修改，需一次性用 PAT 或在 Settings -> Pages 手动设置。"
+            exit 1
+          fi

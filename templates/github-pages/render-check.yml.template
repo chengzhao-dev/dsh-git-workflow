@@ -1,0 +1,28 @@
+name: "render check"
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      # 按项目替换：安装运行时/渲染器/依赖
+      - name: Setup toolchain
+        run: <setup-command>
+
+      # 渲染以暴露结构性错误（缺文件、引用失效、模板错误）
+      - name: Render
+        run: <render-command>
+
+      # 可选：验证后处理脚本本身可用
+      - name: Post-process
+        run: <post-process-command>

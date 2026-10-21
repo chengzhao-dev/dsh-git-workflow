@@ -1,0 +1,30 @@
+name: "CI prepare"
+description: 从项目配置派生版本与缓存键，准备解释器与依赖
+
+# 调用方必须先 checkout；复合动作自身的文件也要先检出才存在。
+# 复制到 .github/actions/ci-prepare/action.yml，替换 <config-file>、<config-section>、
+# <install-command> 与接口版本；action 只做准备，不藏业务检查。
+runs:
+  using: composite
+  steps:
+    - id: cfg
+      name: Derive CI inputs from <config-file>
+      shell: bash
+      run: |
+        mkdir -p temp
+        # 缓存清单只作为缓存键，不提交；写到已忽略的 temp/。
+        sed -n '/^<config-section>/,/^]/p' <config-file> | grep -o '"[^"]*"' > temp/requirements.txt
+        cat temp/requirements.txt
+        echo "version=$(sed -n 's/^version *= *"\([^"]*\)".*/\1/p' <config-file>)" >> "$GITHUB_OUTPUT"
+    - uses: actions/setup-python@<sha> # v5
+      with:
+        python-version: "<python-version>"
+        cache: pip
+        cache-dependency-path: temp/requirements.txt
+    # 解释器版本只有一个来源；CI 只把配置里的本机路径改成 runner 路径。
+    - name: Point <config-file> at the runner interpreter
+      shell: bash
+      run: sed -i 's|^python = .*|python = "/usr/bin/python3"|' <config-file>
+    - name: Install executable-cell dependencies
+      shell: bash
+      run: <install-command>
