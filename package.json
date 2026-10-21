@@ -1,0 +1,84 @@
+{
+  "name": "@chengzhao-dev/dsh-git-workflow",
+  "version": "0.1.0",
+  "description": "Git 与 GitHub 交付技能包：九步交付工序、提交信息与身份校验、PR/Issue、Actions、Pages 发布闸门与仓库卫生 · Git and GitHub delivery tooling for DeepSeek Harness",
+  "type": "module",
+  "main": "./lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "files": [
+    "lib",
+    "skills",
+    "templates",
+    "cordis.patch.yml",
+    "locale",
+    "icon.svg",
+    "README.md",
+    "README.en.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22",
+    "dsh": ">=0.2.0-rc.1 <0.3.0-0"
+  },
+  "dsh": {
+    "catalog": {
+      "category": "skill",
+      "summary": {
+        "zh": "用户要求交付时，按九步工序提交、推送并留下可核对回执；附带只读的提交格式与身份检查。",
+        "en": "Nine-step delivery procedure for commits, pushes and receipts when the user asks to ship, plus read-only commit-message and identity checks."
+      },
+      "capabilities": [
+        "skills",
+        "tools"
+      ]
+    },
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "icon": "./icon.svg",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node --test tests/*.test.mjs",
+    "check": "tsc --noEmit -p tsconfig.json && node scripts/checking-skill-links.mjs",
+    "pack:check": "npm pack --dry-run"
+  },
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "dsh-plugin",
+    "git",
+    "github",
+    "github-actions",
+    "github-pages",
+    "conventional-commits",
+    "skills"
+  ],
+  "license": "MIT",
+  "author": "chengzhao-dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chengzhao-dev/dsh-git-workflow.git"
+  },
+  "bugs": {
+    "url": "https://github.com/chengzhao-dev/dsh-git-workflow/issues"
+  },
+  "homepage": "https://github.com/chengzhao-dev/dsh-git-workflow#readme",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-skill": ">=0.2.0-rc.1 <0.3.0-0"
+  },
+  "devDependencies": {
+    "@deepseek-ai/dsh-skill": ">=0.2.0-rc.1 <0.3.0-0",
+    "@types/node": "^22.20.5",
+    "typescript": "^5.9.3"
+  }
+}

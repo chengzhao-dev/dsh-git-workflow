@@ -1,0 +1,14 @@
+# dsh-git-workflow bundle patch.
+#
+# Additive only: insert one host row. No official row is edited, disabled or
+# replaced. The row loads this package's `main` entry, which registers the
+# packaged shipping-github skill through `ctx.skills` and the two read-only
+# checks through `ctx.tools`.
+#
+# Install from Git or npm, for example:
+#
+#   dsh plugin --profile web add npm:@chengzhao-dev/dsh-git-workflow
+#
+- insert:
+    - id: git-workflow
+      name: '@chengzhao-dev/dsh-git-workflow'
