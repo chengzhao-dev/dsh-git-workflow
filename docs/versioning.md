@@ -24,5 +24,5 @@
 - 推送标签触发 `.github/workflows/publish.yml`：`npm ci` → `npm test` → `npm run check` → `npm publish --provenance`。
 - npm 端使用 trusted publishing；`npm trust list` 应指向本仓库的 `publish.yml` 与 `npm publish` 动作。不一致时停下，把配置命令交给用户，不擅自改信任设置。
 - 成功判据：Actions 绿色，且 `npm view @chengzhao-dev/dsh-git-workflow@<version> version` 返回该版本。
-- 若 npm 要求包先存在才允许配置 trusted publishing，只做一次本地 `npm publish --provenance` 引导；首次引导失败不等于后续标签发布失败。
+- 若 npm 上尚无此包，`npm trust github` 会返回 404：trusted publishing 只能登记到已经存在的包。先在**本机**完成一次手工首发引导：`npm publish --access public --no-provenance`。本地没有 OIDC，`publishConfig.provenance` 会让普通 `npm publish` 报 `EUSAGE`，所以引导时必须显式关闭 provenance；完成 2FA 后再执行上面的 `npm trust github`。引导当次标签 Actions 的失败不属于发布失败，后续版本只走标签。
 - 商店/registry 的上架展示不在本插件发布范围内。
