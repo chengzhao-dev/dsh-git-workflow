@@ -1,6 +1,6 @@
 {
   "meta": {
     "title": "Git 工作流",
-    "description": "九步交付工序：提交信息与身份校验、显式暂存、push 读回、PR/Issue、Actions 与 Pages 发布闸门；只读检查，不代为提交或发布。"
+    "description": "九步交付工序：提交信息与身份校验、显式暂存、push 读回、PR/Issue、Actions 与 Pages 发布闸门；检查工具只读，不会自行运行 Git。"
   }
 }
