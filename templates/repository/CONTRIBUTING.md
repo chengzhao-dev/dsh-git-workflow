@@ -18,12 +18,13 @@
 
 ## 提交身份
 
+- 项目应在 `AGENTS.md` 或本文件写明维护者的姓名与邮箱；未写明时不要凭 `git config` 或历史提交猜测，先补声明或停下核对。
 - 默认只使用维护者本人的 author/committer 身份；不添加 `Co-authored-by`、`Signed-off-by` 或 AI 工具 trailer，除非项目明确要求。
 - 推送前检查：
 
 ```bash
 git log --format='%an <%ae> %cn <%ce>' -n 30 | sort -u
-git log --format='%B' -n 30 | grep -Ei 'co-authored-by|signed-off-by|cursoragent|generated-by' || true
+git log --format='%B' -n 30 | grep -Ei 'co-authored-by|signed-off-by|cursor|generated-by|made with cursor' || true
 ```
 
 ## 不要提交

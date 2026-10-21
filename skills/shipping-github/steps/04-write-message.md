@@ -5,7 +5,7 @@
 ## 官方结构
 
 ```text
-<type>(<scope>)!: <description>
+<type>[(<scope>)][!]: <description>
 
 <body>
 

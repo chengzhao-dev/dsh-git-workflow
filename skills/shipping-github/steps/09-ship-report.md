@@ -12,8 +12,8 @@
   "commits": ["feat(parser): 添加提交信息校验"],
   "remote": {
     "name": "origin",
-    "local_sha": "<40 位 SHA>",
-    "remote_sha": "<40 位 SHA>",
+    "local_sha": "0123456789abcdef0123456789abcdef01234567",
+    "remote_sha": "0123456789abcdef0123456789abcdef01234567",
     "matches": true
   },
   "checks": {

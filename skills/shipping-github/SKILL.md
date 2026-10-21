@@ -13,18 +13,18 @@ metadata:
 
 1. **默认不 commit、不 push、不建 PR、不改远端。** 只有用户明确要求才执行；范围只覆盖用户点名的路径组与目标分支。
 2. **只 `git add` 显式路径。** 禁止 `git add -A`、`git add .`；暂存后用 `git diff --cached --stat` 与 `--check` 核对。
-3. **不改写历史。** 不用 `git commit --amend`（刚失败且未推送的提交除外）、`rebase -i`、`push --force`，不跳过 hooks，不改 `git config`。
+3. **不改写已推送历史。** 不用 `rebase -i`、`push --force`；刚失败且未推送的提交可 `git commit --amend`，未推送分支为跟上远端可做普通 rebase。不跳过 hooks，不改 `git config`。
 4. **提交身份只有项目声明的维护者。** author 与 committer 都必须是声明身份；`Co-authored-by`、`Signed-off-by` 等第三方 trailer 默认禁止，项目明文要求时走 `allowed_trailers`。身份只从项目文档读取，绝不从 `git config` 猜测。
 5. **远端只维护必要分支。** 源码分支加必要的产物分支；产物分支只由自动化写入。不为临时工作推远端分支。
 6. **文本 LF、UTF-8 无 BOM。** 忽略与属性规则集中在仓库根；不把构建产物、缓存、本机配置或密钥写进版本库。
 
 ## 提交契约（摘要）
 
-- 结构：`<type>(<scope>)!: <description>`，冒号必须是英文半角且后跟一个空格；`!` 紧贴冒号。
+- 结构：`<type>[(<scope>)][!]: <description>`，冒号必须是英文半角且后跟一个空格；`!` 紧贴冒号。
 - `type` 取 `feat`、`fix`、`build`、`chore`、`ci`、`docs`、`style`、`refactor`、`perf`、`test`、`revert` 之一；一次提交只用一个类型。
 - 描述默认要求至少一个汉字、不超过 50 个字符、结尾不加句号；技术专名可保留英文。
 - 可选正文与 footer 各用**一个空行**分隔；`BREAKING CHANGE` / `BREAKING-CHANGE` 必须全大写。
-- 提交前把完整信息交给 `git_commit_check`；检查通过才允许 `git commit -F`。检查失败就改，不绕过。
+- 提交前调用 `git_commit_check` 检查完整信息；检查通过才允许 `git commit -F`。检查失败就改，不绕过。
 
 ## 步骤路由
 
